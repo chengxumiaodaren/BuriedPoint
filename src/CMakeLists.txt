@@ -1,7 +1,8 @@
 include_guard(GLOBAL)
 
 set(BURIED_SRCS
-    buried.cc)
+    buried.cc
+    buried_core.cc)
 
 set(MODULE_NAME "Buried")
 
