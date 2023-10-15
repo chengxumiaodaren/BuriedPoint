@@ -44,7 +44,7 @@ else()
     add_definitions(-DNDEBUG)
 endif()
 
-add_subdirectory(lib)
+add_subdirectory(src)
 
 if(BUILD_BURIED_EXAMPLES)
     add_subdirectory(examples)
