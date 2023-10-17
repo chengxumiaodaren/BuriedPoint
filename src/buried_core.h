@@ -2,12 +2,17 @@
 
 #include <stdint.h>
 
+#include <memory>
 #include <string>
 
 #include "buried_common.h"
 #include "include/buried.h"
 
-class Buried {
+namespace spdlog {
+class logger;
+}
+
+struct Buried {
  public:
   struct Config {
     std::string host;
@@ -25,4 +30,7 @@ class Buried {
   BuriedResult Start(const Config& config);
 
   BuriedResult Report(const char* report_data, uint32_t priority);
+
+ private:
+  std::shared_ptr<spdlog::logger> logger_;
 };
