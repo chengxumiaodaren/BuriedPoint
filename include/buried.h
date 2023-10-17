@@ -2,7 +2,11 @@
 
 #include <stdint.h>
 
-int BuriedTest();
+#define BURIED_EXPORT __declspec(dllexport)
+
+extern "C" {
+
+BURIED_EXPORT int BuriedTest();
 
 typedef struct Buried Buried;
 
@@ -14,11 +18,12 @@ struct BuriedConfig {
   const char* custom_data;
 };
 
-Buried* Buried_Create(const char* work_dir);
+BURIED_EXPORT Buried* Buried_Create(const char* work_dir);
 
-void Buried_Destroy(Buried* buried);
+BURIED_EXPORT void Buried_Destroy(Buried* buried);
 
-int32_t Buried_Start(Buried* buried, BuriedConfig* config);
+BURIED_EXPORT int32_t Buried_Start(Buried* buried, BuriedConfig* config);
 
-int32_t Buried_Report(Buried* buried, const char* report_data,
-                      uint32_t priority);
+BURIED_EXPORT int32_t Buried_Report(Buried* buried, const char* report_data,
+                                    uint32_t priority);
+}

@@ -4,6 +4,7 @@
 
 #include "buried_core.h"
 
+extern "C" {
 int BuriedTest() {
   std::cout << "Test";
   return 1;
@@ -51,4 +52,5 @@ int32_t Buried_Report(Buried* buried, const char* report_data,
     return BuriedResult::kBuriedInvalidParam;
   }
   return buried->Report(report_data, priority);
+}
 }

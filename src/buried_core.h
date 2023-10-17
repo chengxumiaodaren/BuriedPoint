@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 
+#include <filesystem>
 #include <memory>
 #include <string>
 
@@ -23,7 +24,7 @@ struct Buried {
   };
 
  public:
-  Buried(std::string work_dir);
+  Buried(const std::string& work_dir);
 
   ~Buried();
 
@@ -31,6 +32,16 @@ struct Buried {
 
   BuriedResult Report(const char* report_data, uint32_t priority);
 
+ public:
+  std::shared_ptr<spdlog::logger> Logger();
+
+ private:
+  void InitWorkPath_(const std::string& work_dir);
+
+  void InitLogger_();
+
  private:
   std::shared_ptr<spdlog::logger> logger_;
+
+  std::filesystem::path work_path_;
 };
