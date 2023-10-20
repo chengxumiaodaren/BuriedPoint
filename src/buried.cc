@@ -37,8 +37,11 @@ int32_t Buried_Start(Buried* buried, BuriedConfig* config) {
   if (config->user_id) {
     buried_config.user_id = config->user_id;
   }
-  if (config->version) {
-    buried_config.version = config->version;
+  if (config->app_version) {
+    buried_config.app_version = config->app_version;
+  }
+  if (config->app_name) {
+    buried_config.app_name = config->app_name;
   }
   if (config->custom_data) {
     buried_config.custom_data = config->custom_data;
@@ -46,11 +49,11 @@ int32_t Buried_Start(Buried* buried, BuriedConfig* config) {
   return buried->Start(buried_config);
 }
 
-int32_t Buried_Report(Buried* buried, const char* report_data,
+int32_t Buried_Report(Buried* buried, const char* title, const char* data,
                       uint32_t priority) {
-  if (!buried || !report_data) {
+  if (!buried || !title || !data) {
     return BuriedResult::kBuriedInvalidParam;
   }
-  return buried->Report(report_data, priority);
+  return buried->Report(title, data, priority);
 }
 }

@@ -19,7 +19,8 @@ struct Buried {
     std::string host;
     std::string topic;
     std::string user_id;
-    std::string version;
+    std::string app_version;
+    std::string app_name;
     std::string custom_data;
   };
 
@@ -30,7 +31,7 @@ struct Buried {
 
   BuriedResult Start(const Config& config);
 
-  BuriedResult Report(const char* report_data, uint32_t priority);
+  BuriedResult Report(const char* title, const char* data, uint32_t priority);
 
  public:
   std::shared_ptr<spdlog::logger> Logger();

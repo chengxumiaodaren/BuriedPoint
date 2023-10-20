@@ -14,7 +14,8 @@ struct BuriedConfig {
   const char* host;
   const char* topic;
   const char* user_id;
-  const char* version;
+  const char* app_version;
+  const char* app_name;
   const char* custom_data;
 };
 
@@ -24,6 +25,6 @@ BURIED_EXPORT void Buried_Destroy(Buried* buried);
 
 BURIED_EXPORT int32_t Buried_Start(Buried* buried, BuriedConfig* config);
 
-BURIED_EXPORT int32_t Buried_Report(Buried* buried, const char* report_data,
-                                    uint32_t priority);
+BURIED_EXPORT int32_t Buried_Report(Buried* buried, const char* title,
+                                    const char* data, uint32_t priority);
 }
