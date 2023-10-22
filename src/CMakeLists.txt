@@ -1,6 +1,6 @@
 include_guard(GLOBAL)
 
-include_directories(. third_party/spdlog/include)
+include_directories(. third_party third_party/spdlog/include third_party/boost)
 
 add_compile_definitions(SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE)
 add_subdirectory(third_party/spdlog)
