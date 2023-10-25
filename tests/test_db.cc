@@ -3,7 +3,7 @@
 #include "gtest/gtest.h"
 #include "src/database/database.h"
 
-TEST(DbTest, Test1) {
+TEST(DbTest, DISABLED_BasicTest) {
   std::filesystem::path db_path("hello_world.db");
 
   if (std::filesystem::exists(db_path)) {

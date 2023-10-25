@@ -2,15 +2,22 @@ include_guard(GLOBAL)
 
 include_directories(. third_party third_party/spdlog/include third_party/boost)
 
-add_compile_definitions(SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE)
+add_definitions(-D_WIN32_WINNT=0x0601)
+add_definitions(-DBOOST_JSON_NO_LIB)
+add_definitions(-DSPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE)
 add_subdirectory(third_party/spdlog)
 
 set(DB_SRCS third_party/sqlite/sqlite3.c database/database.cc)
 
 set(BURIED_SRCS
     ${DB_SRCS}
+    report/buried_report.cc
+    report/http_report.cc
+    common/common_service.cc
+    context/context.cc
     buried.cc
-    buried_core.cc)
+    buried_core.cc
+)
 
 set(MODULE_NAME "Buried")
 
