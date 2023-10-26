@@ -5,6 +5,7 @@ add_definitions(-D_WIN32_WINNT=0x0601)
 include_directories(. ../src/third_party)
 
 set(TEST_SRC
+    test_common_service.cc
     test_http.cc
     test_executor.cc
     test_db.cc

@@ -3,6 +3,11 @@
 namespace buried {
 
 void Context::Start() {
+  if (is_start_.load()) {
+    return;
+  }
+  is_start_.store(true);
+
   main_thread_ = std::make_unique<std::thread>([this]() {
     for (;;) {
       if (is_stop_) {

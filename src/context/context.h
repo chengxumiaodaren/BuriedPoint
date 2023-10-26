@@ -45,6 +45,7 @@ class Context {
   std::unique_ptr<std::thread> main_thread_;
   std::unique_ptr<std::thread> report_thread_;
 
+  std::atomic<bool> is_start_{false};
   std::atomic<bool> is_stop_{false};
 };
 

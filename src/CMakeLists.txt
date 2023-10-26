@@ -7,6 +7,8 @@ add_definitions(-DBOOST_JSON_NO_LIB)
 add_definitions(-DSPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE)
 add_subdirectory(third_party/spdlog)
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/buried_config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/buried_config.h)
+
 set(DB_SRCS third_party/sqlite/sqlite3.c database/database.cc)
 
 set(BURIED_SRCS

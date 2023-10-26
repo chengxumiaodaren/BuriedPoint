@@ -6,12 +6,11 @@
 
 extern "C" {
 
-BURIED_EXPORT int BuriedTest();
-
 typedef struct Buried Buried;
 
 struct BuriedConfig {
   const char* host;
+  const char* port;
   const char* topic;
   const char* user_id;
   const char* app_version;

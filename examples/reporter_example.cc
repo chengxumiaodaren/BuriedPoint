@@ -24,6 +24,7 @@ int main() {
       data.data = "test_data";
       data.priority = i;
       buried_report.InsertData(data);
+      std::this_thread::sleep_for(std::chrono::milliseconds(20));
     }
   });
 
@@ -34,6 +35,7 @@ int main() {
       data.data = "test_2data";
       data.priority = i;
       buried_report.InsertData(data);
+      std::this_thread::sleep_for(std::chrono::milliseconds(20));
     }
   });
   t1.join();

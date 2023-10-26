@@ -13,10 +13,15 @@ namespace spdlog {
 class logger;
 }
 
+namespace buried {
+class BuriedReport;
+}
+
 struct Buried {
  public:
   struct Config {
     std::string host;
+    std::string port;
     std::string topic;
     std::string user_id;
     std::string app_version;
@@ -31,7 +36,7 @@ struct Buried {
 
   BuriedResult Start(const Config& config);
 
-  BuriedResult Report(const char* title, const char* data, uint32_t priority);
+  BuriedResult Report(std::string title, std::string data, uint32_t priority);
 
  public:
   std::shared_ptr<spdlog::logger> Logger();
@@ -43,6 +48,7 @@ struct Buried {
 
  private:
   std::shared_ptr<spdlog::logger> logger_;
+  std::unique_ptr<buried::BuriedReport> buried_report_;
 
   std::filesystem::path work_path_;
 };

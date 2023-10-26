@@ -21,7 +21,6 @@ struct CommonService {
 
   std::string system_version;
   std::string device_name;
-  std::string device_model;
   std::string device_id;
   std::string buried_version;
   std::string lifecycle_id;

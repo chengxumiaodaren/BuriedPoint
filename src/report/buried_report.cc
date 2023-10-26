@@ -141,7 +141,6 @@ BuriedDb::Data BuriedReportImpl::MakeDbData_(const BuriedData& data) {
   json_data["custom_data"] = common_service_.custom_data;
   json_data["system_version"] = common_service_.system_version;
   json_data["device_name"] = common_service_.device_name;
-  json_data["device_model"] = common_service_.device_model;
   json_data["device_id"] = common_service_.device_id;
   json_data["buried_version"] = common_service_.buried_version;
   json_data["lifecycle_id"] = common_service_.lifecycle_id;

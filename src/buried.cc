@@ -5,10 +5,6 @@
 #include "buried_core.h"
 
 extern "C" {
-int BuriedTest() {
-  std::cout << "Test";
-  return 1;
-}
 
 Buried* Buried_Create(const char* work_dir) {
   if (!work_dir) {
@@ -30,6 +26,9 @@ int32_t Buried_Start(Buried* buried, BuriedConfig* config) {
   Buried::Config buried_config;
   if (config->host) {
     buried_config.host = config->host;
+  }
+  if (config->port) {
+    buried_config.port = config->port;
   }
   if (config->topic) {
     buried_config.topic = config->topic;

@@ -21,7 +21,7 @@ if(BUILD_BURIED_FOR_MT)
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 endif()
 
-set(LIBS ${LIBS} winmm iphlpapi ws2_32 dbghelp)
+set(LIBS ${LIBS} winmm iphlpapi ws2_32 dbghelp Kernel32)
 
 # generate pdb file
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi")
