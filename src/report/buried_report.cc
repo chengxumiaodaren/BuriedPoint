@@ -6,10 +6,11 @@
 #include "boost/asio/deadline_timer.hpp"
 #include "boost/asio/io_service.hpp"
 #include "context/context.h"
+#include "crypt/crypt.h"
 #include "database/database.h"
 #include "report/http_report.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/spdlog.h"
-#include "src/third_party/spdlog/include/spdlog/sinks/stdout_color_sinks.h"
 
 namespace buried {
 
@@ -25,6 +26,8 @@ class BuriedReportImpl {
     if (logger_ == nullptr) {
       logger_ = spdlog::stdout_color_mt("buried");
     }
+    std::string key = AESCrypt::GetKey("buried_salt", "buried_password");
+    crypt_ = std::make_unique<AESCrypt>(key);
     SPDLOG_LOGGER_INFO(logger_, "BuriedReportImpl init success");
     Context::GetGlobalContext().GetReportStrand().post([this]() { Init_(); });
   }
@@ -53,6 +56,7 @@ class BuriedReportImpl {
   std::string work_dir_;
   std::unique_ptr<BuriedDb> db_;
   CommonService common_service_;
+  std::unique_ptr<buried::Crypt> crypt_;
 
   std::unique_ptr<boost::asio::deadline_timer> timer_;
 
@@ -119,7 +123,11 @@ std::string BuriedReportImpl::GenReportData_(
     const std::vector<BuriedDb::Data>& datas) {
   nlohmann::json json_datas;
   for (const auto& data : datas) {
-    json_datas.push_back(nlohmann::json::parse(data.content));
+    std::string content =
+        crypt_->Decrypt(data.content.data(), data.content.size());
+    SPDLOG_LOGGER_INFO(logger_, "BuriedReportImpl report data content size: {}",
+                       data.content.size());
+    json_datas.push_back(content);
   }
   std::string ret = json_datas.dump();
   return ret;
@@ -148,7 +156,10 @@ BuriedDb::Data BuriedReportImpl::MakeDbData_(const BuriedData& data) {
   json_data["timestamp"] = CommonService::GetNowDate();
   json_data["process_time"] = CommonService::GetProcessTime();
   json_data["report_id"] = CommonService::GetRandomId();
-  db_data.content = json_data.dump();
+  std::string report_data = crypt_->Encrypt(json_data.dump());
+  db_data.content = std::vector<char>(report_data.begin(), report_data.end());
+  SPDLOG_LOGGER_INFO(logger_, "BuriedReportImpl insert data size: {}",
+                     db_data.content.size());
 
   return db_data;
 }

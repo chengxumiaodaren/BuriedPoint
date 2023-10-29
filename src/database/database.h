@@ -15,7 +15,7 @@ class BuriedDb {
     int32_t id;
     int32_t priority;
     uint64_t timestamp;
-    std::string content;
+    std::vector<char> content;
   };
 
  public:

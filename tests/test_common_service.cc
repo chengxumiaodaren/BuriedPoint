@@ -9,7 +9,6 @@ TEST(CommonServiceTest, RandomStringTest) {
   std::unordered_set<std::string> random_set;
   for (int i = 0; i < 1000; ++i) {
     std::string rn = buried::CommonService::GetRandomId();
-    std::cout << rn << std::endl;
     EXPECT_EQ(rn.size(), 32);
     EXPECT_EQ(random_set.count(rn), 0);
     random_set.insert(rn);
