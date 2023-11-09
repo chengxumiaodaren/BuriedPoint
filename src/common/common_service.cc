@@ -1,6 +1,8 @@
 #include "common/common_service.h"
 
+#ifdef _WIN32
 #include <windows.h>
+#endif
 
 #include <algorithm>
 #include <chrono>
@@ -12,7 +14,7 @@
 namespace buried {
 
 CommonService::CommonService() { Init(); }
-
+#ifdef _WIN32
 static void WriteRegister(const std::string& key, const std::string& value) {
   HKEY h_key;
   LONG ret = ::RegCreateKeyExA(HKEY_CURRENT_USER, "Software\\Buried", 0, NULL,
@@ -47,8 +49,10 @@ static std::string ReadRegister(const std::string& key) {
   ::RegCloseKey(h_key);
   return buf;
 }
+#endif
 
 static std::string GetDeviceId() {
+#ifdef _WIN32
   static constexpr auto kDeviceIdKey = "device_id";
   static std::string device_id = ReadRegister(kDeviceIdKey);
   if (device_id.empty()) {
@@ -56,6 +60,9 @@ static std::string GetDeviceId() {
     WriteRegister(kDeviceIdKey, device_id);
   }
   return device_id;
+#else
+  return "";
+#endif
 }
 
 static std::string GetLifeCycleId() {
@@ -64,6 +71,7 @@ static std::string GetLifeCycleId() {
 }
 
 static std::string GetSystemVersion() {
+#ifdef _WIN32
   OSVERSIONINFOEXA os_version_info;
   ZeroMemory(&os_version_info, sizeof(OSVERSIONINFOEXA));
   os_version_info.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEXA);
@@ -73,17 +81,25 @@ static std::string GetSystemVersion() {
       std::to_string(os_version_info.dwMinorVersion) + "." +
       std::to_string(os_version_info.dwBuildNumber);
   return system_version;
+#else
+  return "";
+#endif
 }
 
 static std::string GetDeviceName() {
+#ifdef _WIN32
   char buf[1024] = {0};
   DWORD buf_size = sizeof(buf);
   ::GetComputerNameA(buf, &buf_size);
   std::string device_name = buf;
   return device_name;
+#else
+  return "";
+#endif
 }
 
 std::string CommonService::GetProcessTime() {
+#ifdef _WIN32
   DWORD pid = ::GetCurrentProcessId();
   HANDLE h_process =
       ::OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid);
@@ -113,6 +129,9 @@ std::string CommonService::GetProcessTime() {
             create_sys_time.wMinute, create_sys_time.wSecond,
             create_sys_time.wMilliseconds);
   return buf;
+#else
+  return "";
+#endif
 }
 
 std::string CommonService::GetNowDate() {

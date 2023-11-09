@@ -2,7 +2,11 @@
 
 #include <stdint.h>
 
+#ifdef _WIN32
 #define BURIED_EXPORT __declspec(dllexport)
+#else
+#define BURIED_EXPORT
+#endif
 
 extern "C" {
 

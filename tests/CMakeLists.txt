@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.16)
 project(BuriedTest)
 
 add_definitions(-D_WIN32_WINNT=0x0601)

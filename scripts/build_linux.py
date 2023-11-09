@@ -12,14 +12,13 @@ def clear():
     if os.path.exists(BUILD_DIR_PATH):
         shutil.rmtree(BUILD_DIR_PATH)
 
-def build_windows(platform='x64', config='Release', args=None):
-    platform_dir = '%s/%s-%s' % (BUILD_DIR_PATH, platform, config)
+def build_linux(config='Release', args=None):
+    platform_dir = '%s/%s' % (BUILD_DIR_PATH, config)
     os.makedirs(platform_dir, exist_ok=True)
 
     os.chdir(platform_dir)
 
-    build_cmd = 'cmake ../.. -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=%s -DCMAKE_GENERATOR_PLATFORM=%s -T v143' % (
-        config, platform)
+    build_cmd = 'cmake ../..  -DCMAKE_BUILD_TYPE=%s' % (config)
 
     if args.test:
         build_cmd += ' -DBUILD_BURIED_TEST=ON'
@@ -44,14 +43,14 @@ def build_windows(platform='x64', config='Release', args=None):
 def main():
     clear()
     os.makedirs(BUILD_DIR_PATH, exist_ok=True)
-    parser = argparse.ArgumentParser(description='build windows')
+    parser = argparse.ArgumentParser(description='build linux')
     parser.add_argument('--test', action='store_true', default=False,
                         help='run unittest')
     parser.add_argument('--example', action='store_true', default=False,
                         help='run examples')
     args = parser.parse_args()
 
-    if not build_windows(platform='x64', config='Debug', args=args):
+    if not build_linux(config='Debug', args=args):
         exit(1)
 
 

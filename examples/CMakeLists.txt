@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.16)
 project(BuriedExample)
 
 add_definitions(-D_WIN32_WINNT=0x0601)
@@ -8,7 +8,7 @@ add_executable(buried_example buried_example.cc)
 target_link_libraries(buried_example Buried_static)
 
 add_executable(buried_example_shared buried_example.cc)
-target_link_libraries(buried_example_shared Buried_shared)
+target_link_libraries(buried_example_shared Buried_shared pthread dl)
 
 add_executable(context_example context_example.cc)
 target_link_libraries(context_example Buried_static)

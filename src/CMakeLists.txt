@@ -27,6 +27,7 @@ set(MODULE_NAME "Buried")
 
 message(STATUS "libs ${LIBS}")
 
+
 if(BUILD_BURIED_STATIC_LIBS)
     add_library(${MODULE_NAME}_static STATIC ${BURIED_SRCS})
     target_link_libraries(${MODULE_NAME}_static PRIVATE ${LIBS} spdlog mbedtls_static)
@@ -36,3 +37,4 @@ if(BUILD_BURIED_SHARED_LIBS)
     add_library(${MODULE_NAME}_shared SHARED ${BURIED_SRCS})
     target_link_libraries(${MODULE_NAME}_shared PRIVATE ${LIBS} spdlog mbedtls_static)
 endif()
+

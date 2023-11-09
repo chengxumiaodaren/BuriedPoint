@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.16)
 
 set(PROJECT_NAME "BuriedPoint")
 
@@ -12,6 +12,10 @@ option(BUILD_BURIED_TEST "build unittest" OFF)
 
 option(BUILD_BURIED_FOR_MT "build for /MT" OFF)
 
+set(INCDIRS . lib ${CMAKE_BINARY_DIR})
+include_directories(${INCDIRS})
+
+if (MSVC)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
 
 if(BUILD_BURIED_FOR_MT)
@@ -29,11 +33,13 @@ set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /Zi")
 set(CMAKE_SHARED_LINKER_FLAGS_RELEASE
     "${CMAKE_EXE_LINKER_FLAGS_RELEASE} /DEBUG /OPT:REF /OPT:ICF")
 
-set(INCDIRS . lib ${CMAKE_BINARY_DIR})
-include_directories(${INCDIRS})
-
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++20")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /std:c11")
+else()
+set(LIBS ${LIBS} dl pthread)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fPIC")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -fPIC")
+endif()
 
 message(STATUS "CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")
 message(STATUS "CMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME}")
